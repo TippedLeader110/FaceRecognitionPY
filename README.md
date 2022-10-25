@@ -1,2 +1,2 @@
-# FaceRecognitionPY
+# FaceRecognitionPY (WIP)
  OpenCV + Liveness 
