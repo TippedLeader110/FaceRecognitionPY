@@ -3,6 +3,8 @@ import numpy as np
 import os 
 from random import randint
 import beepy
+import threading
+
 
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 recognizer.read('trainer/trainer.yml')
@@ -34,6 +36,19 @@ minH = 0.1*cam.get(4)
 count = 0
 mleft = 0
 mright = 0
+
+
+def threaded(fn):
+    def wrapper(*args, **kwargs):
+        thread = threading.Thread(target=fn, args=args, kwargs=kwargs)
+        thread.start()
+        return thread
+    return wrapper
+
+@threaded
+def beep():
+    beepy.make_sound.beep(sound="ping")
+
 
 def matablink():
     global mleft
@@ -104,19 +119,21 @@ while True:
             elif(len(leyes)==0):
                 pre = False
                 
-        if(mright == 0 ):
-            if(len(reyes)==0):
-                pre = True
+        if(pre):
+            if(mright == 0 ):
+                if(len(reyes)==0):
+                    pre = True
+                else:
+                    pre = False
             else:
-                pre = False
-        else:
-            if(len(reyes)>=0):
-                pre = True
-            elif(len(reyes)==0):
-                pre = False
+                if(len(reyes)>=0):
+                    pre = True
+                elif(len(reyes)==0):
+                    pre = False
             
         if(pre):
-            beepy.make_sound.beep(sound="ping")
+            thrd = beep()
+            thrd.join
             id, confidence = recognizer.predict(gray[y:y+h,x:x+w])
             
             if (confidence < 100):
