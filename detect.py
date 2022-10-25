@@ -36,7 +36,7 @@ minH = 0.1*cam.get(4)
 count = 0
 mleft = 0
 mright = 0
-
+msg = ""
 
 def threaded(fn):
     def wrapper(*args, **kwargs):
@@ -116,7 +116,7 @@ while True:
         else:
             if(len(leyes)>=0):
                 pre = True
-            elif(len(leyes)==0):
+            else:
                 pre = False
                 
         if(pre):
@@ -128,7 +128,7 @@ while True:
             else:
                 if(len(reyes)>=0):
                     pre = True
-                elif(len(reyes)==0):
+                else:
                     pre = False
             
         if(pre):
